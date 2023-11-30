@@ -38,9 +38,10 @@ const App = () => {
 
     const handleDelete = (job) => {
         if (confirm('Bạn có chắc muốn xóa ?')) {
-            let newArray = [...listJobs];
-            let idx = newArray.findIndex(jb => jb === job);
-            newArray.splice(idx, 1);
+            // let newArray = [...listJobs];
+            // let idx = newArray.findIndex(jb => jb === job);
+            // newArray.splice(idx, 1);
+            let newArray = listJobs.filter(jb => jb !== job);
             setListJobs(newArray);
         }
     }
