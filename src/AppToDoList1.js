@@ -12,10 +12,10 @@ const App = () => {
     const [listJobs, setListJobs] = useState(initialJobs);
 
     const handleSubmit = () => {
-        // let newArray = [...listJobs];
-        // newArray.push(job);
-        // setListJobs(newArray);
-        setListJobs(prev => [...prev, job]);
+        let newArray = [...listJobs];
+        newArray.push(job);
+        setListJobs(newArray);
+        // setListJobs(prev => [...prev, job]);
         setJob('');
     }
 
