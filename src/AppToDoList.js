@@ -11,21 +11,26 @@ const App = () => {
     const [job, setJob] = useState('');
     const [editJob, setEditJob] = useState('');
     const [listJobs, setListJobs] = useState(initialJobs);
+    const [error, setError] = useState('');
     const [isEdit, setIsEdit] = useState(false);
 
     const handleAdd = () => {
-        if (!isEdit) {
-            let newArray = [...listJobs];
-            newArray.push(job);
-            setListJobs(newArray);
-            setJob('');
+        if (!job) {
+            setError('Vui lòng nhập!');
         } else {
-            let newArray = [...listJobs];
-            let idx = newArray.findIndex(jb => jb === editJob);
-            newArray.splice(idx, 1, job);
-            setListJobs(newArray);
-            setJob('');
-            setIsEdit(false);
+            if (!isEdit) {
+                let newArray = [...listJobs];
+                newArray.push(job);
+                setListJobs(newArray);
+                setJob('');
+            } else {
+                let newArray = [...listJobs];
+                let idx = newArray.findIndex(jb => jb === editJob);
+                newArray.splice(idx, 1, job);
+                setListJobs(newArray);
+                setJob('');
+                setIsEdit(false);
+            }
         }
     }
 
@@ -46,11 +51,29 @@ const App = () => {
         }
     }
 
+    const handleBlur = (e) => {
+        if (!e.target.value) {
+            setError('Vui lòng nhập!');
+        }
+    }
+
+    const handleInput = (e) => {
+        setError('');
+    }
+
     return (
         <>
             <input type='text' value={job}
-                onChange={(e) => setJob(e.target.value)} />
-            <button onClick={handleAdd}>{isEdit ? 'Edit' : 'Add'}</button>
+                onChange={(e) => setJob(e.target.value)}
+                onBlur={e => handleBlur(e)}
+                onInput={e => handleInput(e)}
+                className={error && 'invalid'}
+            />
+            <button onClick={handleAdd}>{isEdit ? 'Edit' : 'Add'}</button><br />
+            <span style={{
+                color: 'red',
+                fontStyle: 'italic'
+            }}>{error}</span>
 
             <ul>
                 {listJobs.map((job, idx) =>
